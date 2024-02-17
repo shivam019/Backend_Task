@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import MonthDropdown from './assets/components/MonthDropdown';
 
 const TransactionList = () => {
   const [transactions, setTransactions] = useState([]);
@@ -19,6 +20,7 @@ const TransactionList = () => {
 
   return (
     <div>
+    <MonthDropdown></MonthDropdown>
       <h2>Transactions</h2>
       <table>
         <thead>
