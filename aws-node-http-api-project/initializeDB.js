@@ -1,5 +1,4 @@
 const axios = require('axios');
-const pool = require("../database")
 
 async function fetchSeedData() {
     try {
@@ -13,7 +12,7 @@ async function fetchSeedData() {
 
 
 
-async function initializeDB() {
+async function initializeDB(pool) {
     try {
         const seedData = await fetchSeedData();
         if (seedData.length === 0) {

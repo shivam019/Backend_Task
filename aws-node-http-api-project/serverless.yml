@@ -6,11 +6,52 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    DB_HOST: product-db.c5q64m0ocxrp.us-east-1.rds.amazonaws.com
+    DB_USER: admin
+    DB_PASSWORD: Productadmin 
+    DB_NAME: products
 
 functions:
-  api:
+  app:
     handler: index.handler
     events:
       - httpApi:
-          path: /
+          path: /index
           method: get
+
+  initialiseDB:
+    handler: initializeDB.handler
+    events:
+      - httpApi:
+          path: /initializeDB
+          method: get        
+
+  alltransaction:
+    handler: alltransaction.handler
+    events:
+      - httpApi:
+          path: /alltransaction
+          method: get
+
+  statistics:
+    handler: statistics.handler
+    events:
+      - httpApi:
+          path: /statistics
+          method: get  
+
+  pie:
+    handler: pie.handler
+    events:
+      - httpApi:
+          path: /pie
+          method: get       
+
+  combined:
+    handler: combined.handler
+    events:
+      - httpApi:
+          path: /combined
+          method: get  

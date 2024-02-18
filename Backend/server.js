@@ -1,41 +1,17 @@
-const express = require("express")
+const express = require("express");
 const app = express();
-const cors = require("cors")
-const axios = require('axios');
-const mysql = require('mysql');
-const initializeDB = require('./Controller/initializeDB');
+const cors = require("cors");
+const mysql = require('mysql2');
 
 const PORT = 9090;
 
+const pool = require("./database");
+
+const productRoute = require("./Routes/products");
+app.use('/product', productRoute);
+
 app.use(cors()); 
 
-//Mysql Connection Pool
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'localhost',
-    user: 'admin',
-    password: 'admin',
-    database: 'products'
+app.listen(PORT, () => {
+    console.log("Server is running on port", PORT);
 });
-
-
-pool.on('error', (err) => {
-    console.error('MySQL Pool Error:', err);
-});
-
-
-
-initializeDB(pool);
-
-app.get('/transactions', async (req, res) => {
-    try {
-      const response = await axios.get('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
-      res.json(response.data);
-    } catch (error) {
-      console.error('Error fetching transaction data:', error);
-      res.status(500).json({ error: 'Failed to fetch transaction data' });
-    }
-  });
-  
-
-app.listen(PORT, ()=> {console.log("Sucessfully, Connected to the Server")})
