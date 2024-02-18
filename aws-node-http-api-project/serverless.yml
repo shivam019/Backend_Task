@@ -1,57 +1,71 @@
-org: shivam019
-app: aws-node-http-api-project
-service: aws-node-http-api-project
-frameworkVersion: '3'
+service: my-serverless-app
 
 provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
-  environment:
-    DB_HOST: product-db.c5q64m0ocxrp.us-east-1.rds.amazonaws.com
-    DB_USER: admin
-    DB_PASSWORD: Productadmin 
-    DB_NAME: products
+  vpc:
+    securityGroupIds:
+      - sg-0dc9339dfde009b1f
+    subnetIds:
+      - subnet-0740ee6eadd2f5a1a
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - rds-db:connect
+        - lambda:InvokeFunction
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - execute-api:Invoke
+      Resource: "*"
 
 functions:
-  app:
-    handler: index.handler
-    events:
-      - httpApi:
-          path: /index
-          method: get
-
-  initialiseDB:
+  initializeDB:
     handler: initializeDB.handler
+    description: Initialize database with seed data
+    timeout: 30
     events:
-      - httpApi:
+      - http:
           path: /initializeDB
-          method: get        
-
+          method: get
   alltransaction:
     handler: alltransaction.handler
+    description: Fetch all transactions
+    timeout: 30
     events:
-      - httpApi:
-          path: /alltransaction
+      - http:
+          path: /alltransactions
           method: get
-
-  statistics:
-    handler: statistics.handler
+  getStatistics:
+    handler: getStatistics.handler
+    description: Fetch statistics
+    timeout: 30
     events:
-      - httpApi:
+      - http:
           path: /statistics
-          method: get  
-
-  pie:
-    handler: pie.handler
+          method: get
+  getBarChart:
+    handler: getBarChart.handler
+    description: Fetch BarChart
+    timeout: 30
     events:
-      - httpApi:
-          path: /pie
-          method: get       
-
-  combined:
-    handler: combined.handler
+      - http:
+          path: /barchart
+          method: get
+  getPieChart:
+    handler: getPieChart.handler
+    description: Fetch PieChart
+    timeout: 30
     events:
-      - httpApi:
-          path: /combined
-          method: get  
+      - http:
+          path: /piechart
+          method: get
+  combinedData:
+    handler: combinedData.handler
+    description: Fetch Combined Data
+    timeout: 30
+    events:
+      - http:
+          path: /combined-data
+          method: get
