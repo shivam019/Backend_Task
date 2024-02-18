@@ -1,40 +1,55 @@
-const {Router} = require("express");
+const { Router } = require("express");
 const initializeDB = require("../Controller/initializeDB");
 const getalltransactions = require("../Controller/getalltransactions");
-const getstatistics = require("../Controller/getstatistics");
+const getStatistics = require("../Controller/getstatistics");
 const getbarchart = require("../Controller/getbarchart");
 const getpiechart = require("../Controller/getpiechart");
-const getchart = require("../Controller/getchart");
-const getAllProducts = require("../Controller/getAllProducts")
+const axios = require('axios');
 
 const router = Router();
 
-//Initialize Database
-
+// Initialize Database
 router.get("/initializeDB", initializeDB);
 
-//Get All Transactions
-
+// Get All Transactions
 router.get("/alltransactions", getalltransactions);
 
-router.get("/allproducts", getAllProducts);
 
+// Get Statistics
+router.get("/statistics", getStatistics);
 
-// Get Staticstics
+// Get Bar Chart
+router.get("/barchart", getbarchart);
 
-// router.get("/statistics", getstatistics);
+// Get Pie Chart
+router.get("/piechart", getpiechart);
 
-//Get Bar Chart
+router.get('/combined-data', async (req, res) => {
+    try {
+        const { month } = req.query;
 
-// router.get("/barchart", getbarchart);
+        const statisticsResponse = await axios.get(`http://localhost:9090/product/statistics?month=${month}`);
+        const barChartResponse = await axios.get(`http://localhost:9090/product/barchart?month=${month}`);
+        const pieChartResponse = await axios.get(`http://localhost:9090/product/piechart?month=${month}`);
 
-//Get Pie Chart
-// router.get("/piechart", getpiechart);
+        statistics = statisticsResponse.data;
+        barChart = barChartResponse.data;
+        pieChart =  pieChartResponse.data;
 
+        const combinedData = {
+            statistics,
+            barChart,
+            pieChart
+        };
 
-//Get combined data from staticstics, bar and pie chart api
+        res.json(combinedData);
+    } catch (error) {
+        console.error('Error while fetching combined data:', error);
+        res.status(500).json({ error: 'Unable to fetch combined data' });
+    }
+});
 
-// router.get("/getchart", getchart);
+module.exports = router;
 
 
 module.exports = router;
