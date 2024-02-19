@@ -1,0 +1,74 @@
+Roxiler System Task for Node.js Intern
+
+Installation
+Clone the repository and run npm install to install the necessary dependencies.
+
+command : npm install
+
+Packages Used
+axios: ^1.6.7
+cors: ^2.8.5
+express: ^4.18.2
+mysql: ^2.18.1
+mysql2: ^3.9.1
+
+
+Development Tools Used
+nodemon
+
+Database
+AWS RDS (MySQL): Used to seed the data from the API.  (for Production)
+MySQL Workbench (Local Server) for testing.
+
+File Structure
+database.js: Database configuration.
+controllers/: Folder containing logic (controller functions).
+routes/products.js: Route handling for /product endpoints.
+
+
+Endpoints
+All endpoints are accessed through port 9090.
+
+Initialize Database
+Endpoint: GET /product/initializeDB
+Description: Initializes the database.
+Controller Function: initializeDB in initializeDB.js
+Example: https://localhost:9090/product/initializeDB
+
+Get All Transactions
+Endpoint: GET /product/alltransactions
+Description: Retrieves all transactions.
+Controller Function: getalltransactions in getalltransactions.js
+Query Parameters: month, page, search, perPage
+
+
+Get Statistics
+Endpoint: GET /product/statistics
+Description: Retrieves statistics.
+Controller Function: getStatistics in getStatistics.js
+Query Parameters: month
+
+
+Get Bar Chart
+Endpoint: GET /product/barchart
+Description: Retrieves a bar chart.
+Controller Function: getbarchart in getbarchart.js
+Query Parameters: month
+
+
+Get Pie Chart
+Endpoint: GET /product/piechart
+Description: Retrieves a pie chart.
+Controller Function: getpiechart in getpiechart.js
+Query Parameters: month
+
+
+Get Combined Data
+Endpoint: GET /product/combined-data
+Description: Retrieves combined data of statistics, bar chart, and pie chart (takes month as query parameter).
+
+
+
+
+
+

@@ -20,7 +20,6 @@ const getStatistics = async (req, res) => {
             totalSaleAmount = totalSaleRows[0].totalSaleAmount;
         }
 
-        // Query to get total number of sold items
         const soldItemsQuery = `
             SELECT COUNT(*) AS totalSoldItems FROM products
             WHERE MONTH(dateOfSale) = ?
@@ -30,7 +29,6 @@ const getStatistics = async (req, res) => {
             totalSoldItems = soldItemsRows[0].totalSoldItems;
         }
 
-        // Query to get total number of not sold items
         const notSoldItemsQuery = `
             SELECT COUNT(*) AS totalNotSoldItems FROM products
             WHERE MONTH(dateOfSale) = ? AND sold = 0

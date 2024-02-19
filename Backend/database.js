@@ -1,12 +1,14 @@
 const mysql = require('mysql2');
+require('dotenv').config();
+
 
 // Create MySQL connection pool
 const pool = mysql.createPool({
-    connectionLimit: 10,
-    host: 'product-db.c5q64m0ocxrp.us-east-1.rds.amazonaws.com',
-    user: 'admin',
-    password: 'Productadmin',
-    database: 'products'
+    connectionLimit: process.env.DB_CONNECTION_LIMIT,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 // Test the connection
