@@ -1,7 +1,7 @@
 const mysql = require('mysql2/promise'); 
 const pool = mysql.createPool({
     connectionLimit: 10,
-    host: 'product-db.c5q64m0ocxrp.us-east-1.rds.amazonaws.com',
+    host: 'productdb.c5q64m0ocxrp.us-east-1.rds.amazonaws.com',
     user: 'admin',
     password: 'Productadmin',
     database: 'products'

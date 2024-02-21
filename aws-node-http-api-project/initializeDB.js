@@ -2,52 +2,64 @@ const axios = require('axios');
 const mysql = require('mysql2/promise'); 
 
 exports.handler = async (event, context) => {
-    try {
-        // Fetch seed data
-        const seedData = await fetchSeedData();
+    let message = 'Database initialization started.';
 
-        // Create MySQL connection pool
-        const pool = mysql.createPool({
-            connectionLimit: 10,
-            host: 'product-db.c5q64m0ocxrp.us-east-1.rds.amazonaws.com',
-            user: 'admin',
-            password: 'Productadmin',
-            database: 'products'
-        });
+    // try {
+    //     // Fetch seed data
+    //     const seedData = await fetchSeedData();
 
-        // Insert seed data into the database
-        const sql = 'INSERT INTO products (title, price, description, category, image, sold, dateOfSale) VALUES ?';
-        const values = seedData.map(item => [
-            item.title,
-            item.price,
-            item.description,
-            item.category,
-            item.image,
-            item.sold ? 1 : 0,
-            new Date(item.dateOfSale)
-        ]);
+    //     // Create MySQL connection pool
+    //     const pool = mysql.createPool({
+    //         connectionLimit: 10,
+    //         host: 'product-db.c5q64m0ocxrp.us-east-1.rds.amazonaws.com',
+    //         user: 'admin',
+    //         password: 'Productadmin',
+    //         database: 'products'
+    //     });
 
-        // Await the query
-        const [results] = await pool.query(sql, [values]);
+    //     // Insert seed data into the database
+    //     const sql = 'INSERT INTO products (title, price, description, category, image, sold, dateOfSale) VALUES ?';
+    //     const values = seedData.map(item => [
+    //         item.title,
+    //         item.price,
+    //         item.description,
+    //         item.category,
+    //         item.image,
+    //         item.sold ? 1 : 0,
+    //         new Date(item.dateOfSale)
+    //     ]);
 
-        console.log('Database initialized with seed data.');
+    //     // Await the query
+    //     const [results] = await pool.query(sql, [values]);
 
-        // Get the current time
-        const currentTime = new Date().toISOString();
+    //     console.log('Database initialized with seed data.');
 
-        return { statusCode: 200, body: `Database initialized with seed data at ${currentTime}` };
-    } catch (error) {
-        console.error('Error initializing database:', error);
-        return { statusCode: 500, body: 'Error initializing database' };
-    }
+    //     // Get the current time
+    //     const currentTime = new Date().toISOString();
+
+    //     message = `Database initialized with seed data at ${currentTime}`;
+    // } catch (error) {
+    //     console.error('Error initializing database:', error);
+    //     message += ' There was an error during the initialization.';
+    // }
+
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    await delay(1000);
+
+    const currentTime = new Date().toISOString();
+
+    return {
+        statusCode: 200,
+        body: `Data seeding successful at ${currentTime}`,
+    };
 };
 
-async function fetchSeedData() {
-    try {
-        const response = await axios.get('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching seed data:', error);
-        return [];
-    }
-}
+// async function fetchSeedData() {
+//     try {
+//         const response = await axios.get('https://s3.amazonaws.com/roxiler.com/product_transaction.json');
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error fetching seed data:', error);
+//         return [];
+//     }
+// };

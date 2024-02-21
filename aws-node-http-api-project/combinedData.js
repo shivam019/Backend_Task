@@ -1,64 +1,80 @@
-const AWS = require('aws-sdk');
-const lambda = new AWS.Lambda();
+// const AWS = require('aws-sdk');
+// const lambda = new AWS.Lambda();
 
-exports.handler = async (event, context) => {
-    try {
+// exports.handler = async (event, context) => {
+//     try {
 
-        const { month } = event.queryStringParameters || {};
+//         const { month } = event.queryStringParameters || {};
 
-        const monthParam = 2;
+//         const monthParam = month;
 
         
-        if (isNaN(monthParam)) {
-            return {
-                statusCode: 400,
-                body: JSON.stringify({ error: 'Month parameter is not a number' }),
-            };
-        }
+//         if (isNaN(monthParam)) {
+//             return {
+//                 statusCode: 400,
+//                 body: JSON.stringify({ error: 'Month parameter is not a number' }),
+//             };
+//         }
 
-        // Invoke the statistics Lambda function
-        const statisticsParams = {
-            FunctionName: 'my-serverless-app-dev-getStatistics', 
-            InvocationType: 'RequestResponse',
-            Payload: JSON.stringify({ month: monthParam })
-        };
+//         // Invoke the statistics Lambda function
+//         const statisticsParams = {
+//             FunctionName: 'my-serverless-app-dev-getStatistics', 
+//             InvocationType: 'RequestResponse',
+//             Payload: JSON.stringify({ month: monthParam })
+//         };
 
-        const statisticsResponse = await lambda.invoke(statisticsParams).promise();
-        const statistics = JSON.parse(statisticsResponse.Payload);
+//         const statisticsResponse = await lambda.invoke(statisticsParams).promise();
+//         const statistics = JSON.parse(statisticsResponse.Payload);
 
-        // Invoke the bar chart Lambda function
-        const barChartParams = {
-            FunctionName: 'my-serverless-app-dev-getBarChart', 
-            InvocationType: 'RequestResponse',
-            Payload: JSON.stringify({ month: monthParam })
-        };
-        const barChartResponse = await lambda.invoke(barChartParams).promise();
-        const barChart = JSON.parse(barChartResponse.Payload);
+//         // Invoke the bar chart Lambda function
+//         const barChartParams = {
+//             FunctionName: 'my-serverless-app-dev-getBarChart', 
+//             InvocationType: 'RequestResponse',
+//             Payload: JSON.stringify({ month: monthParam })
+//         };
+//         const barChartResponse = await lambda.invoke(barChartParams).promise();
+//         const barChart = JSON.parse(barChartResponse.Payload);
 
-        // Invoke the pie chart Lambda function
-        const pieChartParams = {
-            FunctionName: 'my-serverless-app-dev-getPieChart', 
-            InvocationType: 'RequestResponse',
-            Payload: JSON.stringify({ month: monthParam })
-        };
-        const pieChartResponse = await lambda.invoke(pieChartParams).promise();
-        const pieChart = JSON.parse(pieChartResponse.Payload);
+//         // Invoke the pie chart Lambda function
+//         const pieChartParams = {
+//             FunctionName: 'my-serverless-app-dev-getPieChart', 
+//             InvocationType: 'RequestResponse',
+//             Payload: JSON.stringify({ month: monthParam })
+//         };
+//         const pieChartResponse = await lambda.invoke(pieChartParams).promise();
+//         const pieChart = JSON.parse(pieChartResponse.Payload);
 
-        const combinedData = {
-            statistics,
-            barChart,
-            pieChart
-        };
+//         const combinedData = {
+//             statistics,
+//             barChart,
+//             pieChart
+//         };
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify(combinedData),
-        };
-    } catch (error) {
-        console.error('Error while fetching combined data:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Unable to fetch combined data' }),
-        };
-    }
-};
+//         return {
+//             statusCode: 200,
+//             body: JSON.stringify(combinedData),
+//         };
+//     } catch (error) {
+//         console.error('Error while fetching combined data:', error);
+//         return {
+//             statusCode: 500,
+//             body: JSON.stringify({ error: 'Unable to fetch combined data' }),
+//         };
+//     }
+// };
+
+
+module.exports.handler = async (event) => {
+    return {
+      statusCode: 200,
+      body: JSON.stringify(
+        {
+          message: "O",
+          input: event,
+        },
+        null,
+        2
+      ),
+    };
+  };
+  
